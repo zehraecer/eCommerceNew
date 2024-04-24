@@ -140,24 +140,5 @@ async function productReduce() {
 
 
 
-// function applyDiscount() {
-
-
-
-//     beforePrice.classList.add("crossOut")
-//     if (updatedStock === 1 || updatedStock > 1) {
-
-//         afterPrice.innerHTML = `
-//                             ${Math.floor(priceDiscount * updatedStock)}
-//                           `
-//         beforePrice.innerHTML = `${beforePrice.textContent * updatedStock}`
-//     } else {
-//         afterPrice.innerHTML = `
-//         ${Math.floor(priceDiscount)}
-//       `
-//     }
-
-
-// }
 
 listProduct()
