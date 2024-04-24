@@ -62,13 +62,13 @@ async function listProduct() {
 
 
 function bindEvent() {
-    const discountBtn = document.querySelector(".discount-btn")
+    // const discountBtn = document.querySelector(".discount-btn")
     const stockDown = document.querySelector(".stock-down")
     const stockUp = document.querySelector(".stock-up")
     const addToBasket = document.querySelector(".addToBasket")
 
 
-    discountBtn.addEventListener("click", applyDiscount)
+    // discountBtn.addEventListener("click", applyDiscount)
     stockDown.addEventListener("click", productReduce)
     stockUp.addEventListener("click", productIncrease)
     addToBasket.addEventListener("click", addedToCart)
@@ -78,54 +78,71 @@ function addedToCart() {
 
 }
 
-function productIncrease() {
+async function productIncrease() {
+    const item = await getProduct()
+    const itemPrice = item.price
+    console.log(itemPrice);
     const updatedStock = document.querySelector(".updatedstock")
     const discountBtn = document.querySelector(".discount-btn").textContent
     const beforePrice = document.querySelector(".beforePrice")
     const afterPrice = document.querySelector(".afterPrice")
-
-
-    const priceDiscount = ((100 - discountBtn) / 100) * beforePrice.textContent
     const newStock = parseInt(updatedStock.textContent) + 1
+
+    beforePrice.textContent = `${(itemPrice * newStock)}`
+    const priceDiscount = ((100 - discountBtn) / 100) * beforePrice.textContent
+
+    console.log(priceDiscount);
     updatedStock.textContent = `${newStock}`
-    beforePrice.textContent = `${(beforePrice.textContent * newStock)}`
-    afterPrice.innerHTML = {}
+    afterPrice.innerHTML = `${priceDiscount}`
+
 
 }
 
 
-function productReduce() {
+async function productReduce() {
+    const item = await getProduct()
+    const itemPrice = item.price
+    console.log(itemPrice);
+
+
     const updatedStock = document.querySelector(".updatedstock")
     const discountBtn = document.querySelector(".discount-btn").textContent
     const beforePrice = document.querySelector(".beforePrice")
     const afterPrice = document.querySelector(".afterPrice")
+    const newStock = parseInt(updatedStock.textContent) - 1
     const priceDiscount = ((100 - discountBtn) / 100) * beforePrice.textContent
 
-    if (updatedStock.textContent > 0)
-        updatedStock.textContent = parseInt(updatedStock.textContent) - 1
-    console.log("skjdbgfd");
-}
+    if (updatedStock.textContent > 0) {
+        updatedStock.textContent = `${newStock}`
+        beforePrice.textContent = `${(beforePrice.textContent / newStock)}`
+        afterPrice.innerHTML = `${afterPrice.textContent / newStock}`
 
-
-
-function applyDiscount() {
-
-
-
-    beforePrice.classList.add("crossOut")
-    if (updatedStock === 1 || updatedStock > 1) {
-
-        afterPrice.innerHTML = `
-                            ${Math.floor(priceDiscount * updatedStock)}
-                          `
-        beforePrice.innerHTML = `${beforePrice.textContent * updatedStock}`
-    } else {
-        afterPrice.innerHTML = `
-        ${Math.floor(priceDiscount)}
-      `
     }
+    console.log("skjdbgfd");
 
 
 }
+
+
+
+// function applyDiscount() {
+
+
+
+//     beforePrice.classList.add("crossOut")
+//     if (updatedStock === 1 || updatedStock > 1) {
+
+//         afterPrice.innerHTML = `
+//                             ${Math.floor(priceDiscount * updatedStock)}
+//                           `
+//         beforePrice.innerHTML = `${beforePrice.textContent * updatedStock}`
+//     } else {
+//         afterPrice.innerHTML = `
+//         ${Math.floor(priceDiscount)}
+//       `
+//     }
+
+
+// }
 
 listProduct()
