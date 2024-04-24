@@ -1,15 +1,19 @@
 const clickedid = JSON.parse(localStorage.getItem("clickedid"))
 const hero = document.querySelector(".hero")
 const dummyjson = "https://dummyjson.com";
+const mmyDialog = document.querySelector(".myDialog")
+const shoppingBasket = document.querySelector(".shoppingBasket")
 
-// console.log(x);
 
+// tiklanan urune fetch atıldı
 async function getProduct() {
     const response = await fetch(`${dummyjson}/products/${clickedid}`)
     const items = await response.json()
     // console.log(items);
     return items
 }
+
+// tiklanan urunun detayları listelendi
 
 async function listProduct() {
     const item = await getProduct()
@@ -20,7 +24,7 @@ async function listProduct() {
         <img class="img-big" src="${item.images[0]}" alt="">
 
         <div class="hero-left-under">
-            <img class="img-small" src="${item.images[1]}" alt="">
+            <img id="imgSmall" class="img-small" src="${item.images[1]}" alt="">
             <img class="img-small" src="${item.images[2]}" alt="">
             <img class="img-small" src="${item.images[3]}" alt="">
             <img class="img-small" src="${item.images[0]}" alt="">
@@ -30,8 +34,8 @@ async function listProduct() {
 
 
     <div class="hero-right">
-            <h4>${item.brand}</h4>
-            <h1>${item.category}</h1>
+            <h4 class="brand">${item.brand}</h4>
+            <h1 class="title">${item.title}</h1>
             <p>${item.description}</p>
             <div class="hero-right-pricing">
                 <div class="before-after-price">
@@ -56,27 +60,121 @@ async function listProduct() {
     </div>
         
         `
-    bindEvent()
+    bindEvents()
 
 }
 
 
-function bindEvent() {
+
+
+// butonlar icin fonksiyon 
+function bindEvents() {
     // const discountBtn = document.querySelector(".discount-btn")
     const stockDown = document.querySelector(".stock-down")
     const stockUp = document.querySelector(".stock-up")
     const addToBasket = document.querySelector(".addToBasket")
+    const shoppingCart = document.querySelector(".shoppingCart")
+    const myDialogCloseBtn = document.querySelector(".myDialog-close-btn")
+
 
 
     // discountBtn.addEventListener("click", applyDiscount)
     stockDown.addEventListener("click", productReduce)
     stockUp.addEventListener("click", productIncrease)
     addToBasket.addEventListener("click", addedToCart)
+    shoppingCart.addEventListener("click", showCart)
+    myDialogCloseBtn.addEventListener("click", closeModal)
 }
 
-function addedToCart() {
+
+
+
+// sepete eklenen urun modalını kapatmak icin fonksiyon
+
+function closeModal() {
+    mmyDialog.close();
+}
+
+
+
+
+
+// sepete tiklandiginda sepet detaylarini gösteren fonksiyon
+function showCart() {
+    console.log("dfkgno");
+    const urunListesi = JSON.parse(localStorage.getItem('urunListesi'))
+    shoppingBasket.style.display = "block"
+    shoppingBasket.innerHTML = `
+    <h5>Cart</h5>
+
+    <div class="basketDetails">
+        <img class="shoppingCartimg" src="assets/img/Rectangle Copy 2.png" alt="">
+
+        <div class="basketDetails-one">
+            <h4>Fall Limited Edition Sneakers</h4>
+            <div class="basketDetails-one-first">
+                <h3>$ ${urunListesi.firstPrice} X  ${urunListesi.stock}</h3>
+                <h6>$${urunListesi.price}</h6>
+            </div>
+        </div>
+
+        <img src="assets/img/bin.svg" alt="">
+    </div>
+    <div class="checkOut">
+        <a href="#">Checkout</a>
+
+    </div>
+    `
+
+    // if (urunListesi.length == 0) {
+    //     shoppingBasket.innerHTML = `
+    // <h5>Cart</h5>
+
+    // <div class="basketDetails">
+    //      <h4>Sepetiniz Boş</h4>
+
+    // </div>
+    // `
+    // }
+
+    console.log(urunListesi);
+}
+
+
+
+
+// sepete eklenen urun detaylari local storagea kaydedildi
+async function addedToCart() {
+    const discountBtn = document.querySelector(".discount-btn").textContent
+    const item = await getProduct()
+    const itemPrice = Math.floor(((100 - discountBtn) / 100) * item.price)
+    mmyDialog.showModal();
+    const afterPrice = document.querySelector(".afterPrice").textContent
+    const updatedStock = document.querySelector(".updatedstock").textContent
+    const title = document.querySelector(".title").textContent
+    const imgSrc = document.querySelector("#imgSmall").src;
+    console.log(imgSrc);
+
+
+
+    const urunListesi = {
+        firstPrice: itemPrice,
+        price: afterPrice,
+        adi: title,
+        stock: updatedStock,
+        image: imgSrc
+
+    }
+
+    localStorage.setItem('urunListesi', JSON.stringify(urunListesi));
+
+    console.log(urunListesi);
 
 }
+
+
+
+// urun arttırma butonu icin fonksiyon
 
 async function productIncrease() {
     const item = await getProduct()
@@ -101,6 +199,9 @@ async function productIncrease() {
     beforePrice.classList.add("crossOut")
 }
 
+
+
+// urun azaltma butonu icin fonksiyon
 
 async function productReduce() {
     const item = await getProduct()

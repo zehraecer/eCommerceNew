@@ -48,9 +48,9 @@ a {
     }
 }
 
-/* .header-right {
-    padding-bottom: 30px;
-} */
+.header-right {
+    position: relative;
+}
 
 .header-right .avatar {
 
@@ -63,6 +63,7 @@ a {
 
 .header-right .shape {
     padding-bottom: 12px;
+    cursor: pointer;
 }
 
 .hero {
@@ -239,4 +240,117 @@ a {
 
 .crossOut {
     text-decoration: line-through;
+}
+
+.myDialog {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 210px;
+    border-radius: 15px;
+    background-color: #FF7E1B;
+    border: none;
+
+    h1 {
+        text-align: end;
+        padding-right: 11px;
+        padding-top: 5px;
+        font-size: 20px;
+        color: #fff;
+
+
+
+    }
+
+    h5 {
+        text-align: center;
+        margin-top: 50px;
+        color: #fff;
+        font-size: 20px;
+
+    }
+}
+
+.myDialog-close-btn {
+    cursor: pointer;
+}
+
+.shoppingBasket {
+    display: none;
+    background-color: #FFFFFF;
+    position: absolute;
+    right: 40px;
+    box-shadow: 0px 20px 50px -20px #1D202680;
+    border-radius: 10px;
+
+
+    h5 {
+        padding: 24px 302px 27px 24px;
+        font-family: Kumbh Sans;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 19.84px;
+        text-align: left;
+        color: #1D2026;
+        border-bottom: 1px solid #E4E9F2;
+
+    }
+
+    h3,
+    h4,
+    h6 {
+        font-family: Kumbh Sans;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 26px;
+        text-align: left;
+        color: #69707D;
+
+    }
+
+    h6 {
+        font-weight: 700;
+        color: #1D2026;
+
+    }
+
+    a {
+        padding: 22px 120px;
+        color: #fff;
+        background-color: #FF7E1B;
+        border-radius: 10px;
+        font-family: Kumbh Sans;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 19.84px;
+        text-align: left;
+
+
+    }
+
+
+
+}
+
+
+.basketDetails {
+    display: flex;
+    padding: 24px;
+    gap: 16px;
+}
+
+.basketDetails-one-first {
+    display: flex;
+    gap: 10px;
+}
+
+.checkOut {
+    padding: 24px 24px 52px 24px;
+}
+
+.shoppingCartimg {
+    width: 50px;
+    height: 50px;
 }
