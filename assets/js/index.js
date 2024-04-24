@@ -18,15 +18,32 @@ async function getItems() {
     for (const item of items) {
         // console.log(item);
         content.innerHTML += `
-        <div>
+
         <a  id="${item.id}"  href="productPage.html" class="homePage">
-            <img src="${item.images[0]}" alt="">
-            <h4>${item.brand}</h4>
-            <h3>${item.category}</h3>
-            <h2>${item.price}</h2>
+
+            <div class="deneme">
+            
+                <div class="content-img" >
+
+                        <img src="${item.images[0]}" alt="">
+
+                </div>
+
+                <div class="explanation">
+                    <h4>${item.title}</h4>
+                    <h5>${item.category}</h5>
+                </div>
+
+                <h3>${item.rating}</h3>
+                <div class="content-stock">
+                    <h2>$ ${item.price}</h2>
+                    <h6>Stock: ${item.stock}</h6>
+
+                </div>
+            </div>
         </a>
         
-        </div>
+        
         `
     }
     const homepages = document.querySelectorAll(".homePage")

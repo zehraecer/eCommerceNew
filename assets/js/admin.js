@@ -68,7 +68,8 @@ async function listProduct() {
 
 
 // butonlar icin fonksiyon 
-function bindEvents() {
+function bindEvents
+    () {
     // const discountBtn = document.querySelector(".discount-btn")
     const stockDown = document.querySelector(".stock-down")
     const stockUp = document.querySelector(".stock-up")
