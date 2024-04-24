@@ -81,21 +81,24 @@ function addedToCart() {
 async function productIncrease() {
     const item = await getProduct()
     const itemPrice = item.price
-    console.log(itemPrice);
+
     const updatedStock = document.querySelector(".updatedstock")
     const discountBtn = document.querySelector(".discount-btn").textContent
     const beforePrice = document.querySelector(".beforePrice")
     const afterPrice = document.querySelector(".afterPrice")
+
     const newStock = parseInt(updatedStock.textContent) + 1
 
     beforePrice.textContent = `${(itemPrice * newStock)}`
+
     const priceDiscount = ((100 - discountBtn) / 100) * beforePrice.textContent
 
-    console.log(priceDiscount);
     updatedStock.textContent = `${newStock}`
-    afterPrice.innerHTML = `${priceDiscount}`
+
+    afterPrice.innerHTML = `${parseInt(priceDiscount)}`
 
 
+    beforePrice.classList.add("crossOut")
 }
 
 
@@ -106,19 +109,31 @@ async function productReduce() {
 
 
     const updatedStock = document.querySelector(".updatedstock")
-    const discountBtn = document.querySelector(".discount-btn").textContent
     const beforePrice = document.querySelector(".beforePrice")
     const afterPrice = document.querySelector(".afterPrice")
-    const newStock = parseInt(updatedStock.textContent) - 1
-    const priceDiscount = ((100 - discountBtn) / 100) * beforePrice.textContent
+    console.log(afterPrice.textContent);
+    const discountBtn = document.querySelector(".discount-btn").textContent
 
-    if (updatedStock.textContent > 0) {
+    const priceDiscount = ((100 - discountBtn) / 100)
+    console.log(priceDiscount);
+
+
+    const newStock = parseInt(updatedStock.textContent) - 1
+
+
+    if (updatedStock.textContent >= 1) {
         updatedStock.textContent = `${newStock}`
-        beforePrice.textContent = `${(beforePrice.textContent / newStock)}`
-        afterPrice.innerHTML = `${afterPrice.textContent / newStock}`
+        beforePrice.textContent = `${(beforePrice.textContent - itemPrice)}`
+        afterPrice.innerHTML = `${afterPrice.textContent - itemPrice}`
 
     }
-    console.log("skjdbgfd");
+    if (newStock === 0) {
+        updatedStock.textContent = `${newStock}`
+        beforePrice.textContent = `${itemPrice}`;
+        afterPrice.textContent = `${Math.floor(((100 - discountBtn) / 100) * itemPrice)}`;
+    }
+
+
 
 
 }
