@@ -55,6 +55,7 @@ async function getItems() {
         `
     }
     const homepages = document.querySelectorAll(".homePage")
+
     for (const homepage of homepages) {
 
         homepage.addEventListener("click", init)
@@ -64,7 +65,6 @@ async function getItems() {
 
 function init() {
     let clickedid = Number(this.id)
-    console.log(clickedid);
 
     localStorage.setItem("clickedid", JSON.stringify(clickedid))
 }

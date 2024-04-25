@@ -340,6 +340,16 @@ a {
 
 
 .basketDetails {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+
+    img {
+        border-radius: 5px;
+    }
+
+}
+
+.shoppingBasket-one {
     display: flex;
     padding: 24px;
     gap: 16px;
@@ -359,7 +369,10 @@ a {
     height: 50px;
 }
 
-
+.bin {
+    margin-left: 90px;
+    cursor: pointer;
+}
 
 .cartTotal {
     display: none;

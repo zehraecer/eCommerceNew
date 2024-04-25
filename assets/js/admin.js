@@ -80,6 +80,7 @@ async function listProduct() {
         
         `
     sale()
+    deleteCart()
     bindEvents(".stock-down", "click", productReduce)
     bindEvents(".stock-up", "click", productIncrease)
     bindEvents(".addToBasket", "click", addedToCart)
