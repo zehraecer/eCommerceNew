@@ -1,5 +1,11 @@
 const dummyjson = "https://dummyjson.com";
-const content = document.querySelector(".content")
+const content = qs(".content")
+
+
+function qs(selector) {
+    const element = document.querySelector(selector)
+    return element
+}
 
 async function getFetch(endpoint) {
     const response = await fetch(`${dummyjson}/${endpoint}`)
@@ -46,7 +52,9 @@ async function getItems() {
         
         `
     }
-    const homepages = document.querySelectorAll(".homePage")
+
+    const homepages = qs(".homePage")
+
     for (const homepage of homepages) {
 
         homepage.addEventListener("click", init)

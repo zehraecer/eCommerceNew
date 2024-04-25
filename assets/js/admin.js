@@ -1,8 +1,25 @@
 const clickedid = JSON.parse(localStorage.getItem("clickedid"))
-const hero = document.querySelector(".hero")
 const dummyjson = "https://dummyjson.com";
-const mmyDialog = document.querySelector(".myDialog")
-const shoppingBasket = document.querySelector(".shoppingBasket")
+
+const hero = qs(".hero");
+const mmyDialog = qs(".myDialog");
+const shoppingBasket = qs(".shoppingBasket");
+
+
+
+function qs(selector) {
+    const element = document.querySelector(selector)
+    return element;
+
+}
+
+
+function bindEvents(selector, eventType, cbFunction) {
+    const element = qs(selector)
+    element.addEventListener(eventType, cbFunction)
+    return element;
+
+}
 
 
 // tiklanan urune fetch atıldı
@@ -60,31 +77,14 @@ async function listProduct() {
     </div>
         
         `
-    bindEvents()
+    bindEvents(".stock-down", "click", productReduce)
+    bindEvents(".stock-up", "click", productIncrease)
+    bindEvents(".addToBasket", "click", addedToCart)
+    bindEvents(".shoppingCart", "click", showCart)
+    bindEvents(".myDialog-close-btn", "click", closeModal)
 
-}
+    // bindEvents()
 
-
-
-
-// butonlar icin fonksiyon 
-function bindEvents
-    () {
-    // const discountBtn = document.querySelector(".discount-btn")
-    const stockDown = document.querySelector(".stock-down")
-    const stockUp = document.querySelector(".stock-up")
-    const addToBasket = document.querySelector(".addToBasket")
-    const shoppingCart = document.querySelector(".shoppingCart")
-    const myDialogCloseBtn = document.querySelector(".myDialog-close-btn")
-
-
-
-    // discountBtn.addEventListener("click", applyDiscount)
-    stockDown.addEventListener("click", productReduce)
-    stockUp.addEventListener("click", productIncrease)
-    addToBasket.addEventListener("click", addedToCart)
-    shoppingCart.addEventListener("click", showCart)
-    myDialogCloseBtn.addEventListener("click", closeModal)
 }
 
 
@@ -127,18 +127,7 @@ function showCart() {
     </div>
     `
 
-    // if (urunListesi.length == 0) {
-    //     shoppingBasket.innerHTML = `
-    // <h5>Cart</h5>
-
-    // <div class="basketDetails">
-    //      <h4>Sepetiniz Boş</h4>
-
-    // </div>
-    // `
-    // }
-
-    console.log(urunListesi);
+    // console.log(urunListesi);
 }
 
 
@@ -205,6 +194,7 @@ async function productIncrease() {
 // urun azaltma butonu icin fonksiyon
 
 async function productReduce() {
+    console.log("ndjgnfd");
     const item = await getProduct()
     const itemPrice = item.price
     console.log(itemPrice);
