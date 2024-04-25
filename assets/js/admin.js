@@ -7,6 +7,7 @@ const shoppingBasket = qs(".shoppingBasket");
 
 
 
+
 function qs(selector) {
     const element = document.querySelector(selector)
     return element;
@@ -59,7 +60,7 @@ async function listProduct() {
                     <h3 class="afterPrice">${item.price}</h3>
                     <h6 class="beforePrice">${item.price}</h6>
                 </div>
-                <a href="#" class="discount-btn">${item.discountPercentage}</a>
+                <a href="#" class="pricing-discount">${item.discountPercentage}</a>
             </div>
 
             <div class="hero-right-stock-addToCart">
@@ -77,6 +78,7 @@ async function listProduct() {
     </div>
         
         `
+    sale()
     bindEvents(".stock-down", "click", productReduce)
     bindEvents(".stock-up", "click", productIncrease)
     bindEvents(".addToBasket", "click", addedToCart)
@@ -131,11 +133,27 @@ function showCart() {
 }
 
 
+function sale() {
+    const saleprice = qs(".afterPrice")
+    const beforeprice = qs(".beforePrice")
+
+    const discount = qs(".pricing-discount").textContent
+
+    let salePrice = Math.floor(((100 - discount) / 100) * beforeprice.textContent)
+
+    saleprice.innerHTML = `${salePrice}`
+    beforeprice.classList.add("crossOut")
+
+}
+
+
 
 
 // sepete eklenen urun detaylari local storagea kaydedildi
+
+
 async function addedToCart() {
-    const discountBtn = document.querySelector(".discount-btn").textContent
+    const discountBtn = document.querySelector(".pricing-discount").textContent
     const item = await getProduct()
     const itemPrice = Math.floor(((100 - discountBtn) / 100) * item.price)
     mmyDialog.showModal();
@@ -167,26 +185,14 @@ async function addedToCart() {
 // urun arttırma butonu icin fonksiyon
 
 async function productIncrease() {
-    const item = await getProduct()
-    const itemPrice = item.price
 
-    const updatedStock = document.querySelector(".updatedstock")
-    const discountBtn = document.querySelector(".discount-btn").textContent
-    const beforePrice = document.querySelector(".beforePrice")
-    const afterPrice = document.querySelector(".afterPrice")
+    const updatedStock = qs(".updatedstock")
+    const beforePrice = qs(".beforePrice")
 
     const newStock = parseInt(updatedStock.textContent) + 1
 
-    beforePrice.textContent = `${(itemPrice * newStock)}`
-
-    const priceDiscount = ((100 - discountBtn) / 100) * beforePrice.textContent
-
     updatedStock.textContent = `${newStock}`
 
-    afterPrice.innerHTML = `${parseInt(priceDiscount)}`
-
-
-    beforePrice.classList.add("crossOut")
 }
 
 
@@ -194,35 +200,19 @@ async function productIncrease() {
 // urun azaltma butonu icin fonksiyon
 
 async function productReduce() {
-    console.log("ndjgnfd");
-    const item = await getProduct()
-    const itemPrice = item.price
-    console.log(itemPrice);
-
 
     const updatedStock = document.querySelector(".updatedstock")
-    const beforePrice = document.querySelector(".beforePrice")
-    const afterPrice = document.querySelector(".afterPrice")
-    console.log(afterPrice.textContent);
-    const discountBtn = document.querySelector(".discount-btn").textContent
-
-    const priceDiscount = ((100 - discountBtn) / 100)
-    console.log(priceDiscount);
-
-
     const newStock = parseInt(updatedStock.textContent) - 1
 
 
     if (updatedStock.textContent >= 1) {
         updatedStock.textContent = `${newStock}`
-        beforePrice.textContent = `${(beforePrice.textContent - itemPrice)}`
-        afterPrice.innerHTML = `${afterPrice.textContent - itemPrice}`
+
 
     }
     if (newStock === 0) {
         updatedStock.textContent = `${newStock}`
-        beforePrice.textContent = `${itemPrice}`;
-        afterPrice.textContent = `${Math.floor(((100 - discountBtn) / 100) * itemPrice)}`;
+
     }
 
 
