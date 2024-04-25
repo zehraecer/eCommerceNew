@@ -1,9 +1,8 @@
 const clickedid = JSON.parse(localStorage.getItem("clickedid"))
 const dummyjson = "https://dummyjson.com";
-
 const hero = qs(".hero");
-const mmyDialog = qs(".myDialog");
-const shoppingBasket = qs(".shoppingBasket");
+
+let totalNumber = 0
 
 
 
@@ -24,12 +23,14 @@ function bindEvents(selector, eventType, cbFunction) {
 
 
 // tiklanan urune fetch atıldı
+
 async function getProduct() {
     const response = await fetch(`${dummyjson}/products/${clickedid}`)
     const items = await response.json()
     // console.log(items);
     return items
 }
+
 
 // tiklanan urunun detayları listelendi
 
@@ -60,14 +61,14 @@ async function listProduct() {
                     <h3 class="afterPrice">${item.price}</h3>
                     <h6 class="beforePrice">${item.price}</h6>
                 </div>
-                <a href="#" class="pricing-discount">${item.discountPercentage}</a>
+                <a href="#" class="dscnt">${item.discountPercentage}</a>
             </div>
 
             <div class="hero-right-stock-addToCart">
 
                 <div class="stock">
                     <a href="#" class="stock-down">-</a>
-                    <h5 class="updatedstock">0</h5>
+                    <h5 class="updatedstock">${totalNumber}</h5>
                     <a href="#" class="stock-up">+</a>
                 </div>
 
@@ -95,90 +96,33 @@ async function listProduct() {
 // sepete eklenen urun modalını kapatmak icin fonksiyon
 
 function closeModal() {
-    mmyDialog.close();
+
+    myDialog.close();
+
 }
 
 
 
 
 
-// sepete tiklandiginda sepet detaylarini gösteren fonksiyon
-function showCart() {
-    console.log("dfkgno");
-    const urunListesi = JSON.parse(localStorage.getItem('urunListesi'))
-    shoppingBasket.style.display = "block"
-    shoppingBasket.innerHTML = `
-    <h5>Cart</h5>
-
-    <div class="basketDetails">
-        <img class="shoppingCartimg" src="assets/img/Rectangle Copy 2.png" alt="">
-
-        <div class="basketDetails-one">
-            <h4>Fall Limited Edition Sneakers</h4>
-            <div class="basketDetails-one-first">
-                <h3>$ ${urunListesi.firstPrice} X  ${urunListesi.stock}</h3>
-                <h6>$${urunListesi.price}</h6>
-            </div>
-        </div>
-
-        <img src="assets/img/bin.svg" alt="">
-    </div>
-    <div class="checkOut">
-        <a href="#">Checkout</a>
-
-    </div>
-    `
-
-    // console.log(urunListesi);
-}
-
+//indirim
 
 function sale() {
     const saleprice = qs(".afterPrice")
     const beforeprice = qs(".beforePrice")
+    const discount = qs(".dscnt").textContent
 
-    const discount = qs(".pricing-discount").textContent
 
     let salePrice = Math.floor(((100 - discount) / 100) * beforeprice.textContent)
 
     saleprice.innerHTML = `${salePrice}`
+
     beforeprice.classList.add("crossOut")
 
 }
 
 
 
-
-// sepete eklenen urun detaylari local storagea kaydedildi
-
-
-async function addedToCart() {
-    const discountBtn = document.querySelector(".pricing-discount").textContent
-    const item = await getProduct()
-    const itemPrice = Math.floor(((100 - discountBtn) / 100) * item.price)
-    mmyDialog.showModal();
-    const afterPrice = document.querySelector(".afterPrice").textContent
-    const updatedStock = document.querySelector(".updatedstock").textContent
-    const title = document.querySelector(".title").textContent
-    const imgSrc = document.querySelector("#imgSmall").src;
-    console.log(imgSrc);
-
-
-
-    const urunListesi = {
-        firstPrice: itemPrice,
-        price: afterPrice,
-        adi: title,
-        stock: updatedStock,
-        image: imgSrc
-
-    }
-
-    localStorage.setItem('urunListesi', JSON.stringify(urunListesi));
-
-    console.log(urunListesi);
-
-}
 
 
 
@@ -187,11 +131,11 @@ async function addedToCart() {
 async function productIncrease() {
 
     const updatedStock = qs(".updatedstock")
-    const beforePrice = qs(".beforePrice")
 
-    const newStock = parseInt(updatedStock.textContent) + 1
+    totalNumber++
 
-    updatedStock.textContent = `${newStock}`
+    updatedStock.innerHTML = `${totalNumber}`
+
 
 }
 
@@ -202,20 +146,14 @@ async function productIncrease() {
 async function productReduce() {
 
     const updatedStock = document.querySelector(".updatedstock")
-    const newStock = parseInt(updatedStock.textContent) - 1
 
 
-    if (updatedStock.textContent >= 1) {
-        updatedStock.textContent = `${newStock}`
-
-
-    }
-    if (newStock === 0) {
-        updatedStock.textContent = `${newStock}`
+    if (totalNumber > 0) {
+        totalNumber--
 
     }
 
-
+    updatedStock.textContent = `${totalNumber}`
 
 
 }
