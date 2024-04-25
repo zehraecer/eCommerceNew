@@ -39,7 +39,7 @@ async function listProduct() {
     console.log(item);
     hero.innerHTML = `
         
-    <div class="hero-left">
+    <div data-id="${item.id}" class="hero-left">
         <img class="img-big" src="${item.images[0]}" alt="">
 
         <div class="hero-left-under">
@@ -80,14 +80,12 @@ async function listProduct() {
         
         `
     sale()
-    deleteCart()
     bindEvents(".stock-down", "click", productReduce)
     bindEvents(".stock-up", "click", productIncrease)
     bindEvents(".addToBasket", "click", addedToCart)
     bindEvents(".shoppingCart", "click", showCart)
     bindEvents(".myDialog-close-btn", "click", closeModal)
 
-    // bindEvents()
 
 }
 
@@ -138,6 +136,7 @@ async function productIncrease() {
     updatedStock.innerHTML = `${totalNumber}`
 
 
+
 }
 
 
@@ -158,7 +157,6 @@ async function productReduce() {
 
 
 }
-
 
 
 

@@ -4,12 +4,7 @@ const shoppingBasket = qs(".shoppingBasket");
 const basketDetails = qs(".basketDetails")
 let cartTotal = qs(".cartTotal")
 
-const bins = document.querySelectorAll(".bin")
 
-
-for (const bin of bins) {
-    bin.addEventListener("click", deleteCart)
-}
 
 
 if (!localStorage.getItem("localProduct")) {
@@ -18,13 +13,12 @@ if (!localStorage.getItem("localProduct")) {
 
 
 
-let idno = 1
 
-function deleteCart() {
-    console.log("ndfıjvbf");
-    const findProduct = localProducts.find(product => product.id == this.parentElement.id);
-    console.log(findProduct);
-}
+// function deleteCart() {
+//     console.log("nfdjgnf");
+//     // const findProduct = localProducts.find(product => product.id == this.parentElement.id);
+//     // console.log(findProduct);
+// }
 
 function totalCart() {
 
@@ -36,35 +30,41 @@ function totalCart() {
     }
 }
 
+
 function addedToCart() {
     totalCart()
 
     myDialog.showModal();
 
+    const idno = this.parentElement.parentElement.parentElement.parentElement.children[0].dataset.id;
+    // console.log(idno);
     const afterPrice = qs(".afterPrice").textContent
     const title = qs(".title").textContent
     const imgSrc = qs("#imgSmall").src;
+    const existingProductIndex = localProducts.findIndex(product => product.id === idno);
 
 
+    if (existingProductIndex !== -1) {
+        // Ürün sepette var, adet sayısını artır
+        localProducts[existingProductIndex].stock += totalNumber;
+        localProducts[existingProductIndex].totalPrice += totalNumber * afterPrice;
+    } else {
+        // Ürün sepette yok, yeni ürün olarak ekle
+        const productList = {
+            id: idno,
+            firstPrice: afterPrice,
+            totalPrice: totalNumber * afterPrice,
+            adi: title,
+            stock: totalNumber,
+            image: imgSrc
+        };
 
-    const productList = {
-        id: idno++,
-        firstPrice: afterPrice,
-        totalPrice: totalNumber * afterPrice,
-        adi: title,
-        stock: totalNumber,
-        image: imgSrc
-
-
+        localProducts.push(productList);
     }
 
-    localProducts.push(productList)
 
-    console.log(localProducts);
 
     localStorage.setItem('localProduct', JSON.stringify(localProducts));
-
-
 }
 
 
@@ -73,7 +73,7 @@ function addedToCart() {
 
 // sepete tiklandiginda sepet detaylarini gösteren fonksiyon
 function showCart() {
-    console.log("dfkgno");
+    console.log("ndjıg");
     shoppingBasket.classList.toggle("active")
     basketDetails.innerHTML = ""
 
@@ -82,18 +82,18 @@ function showCart() {
         basketDetails.innerHTML += `
         <div class="shoppingBasket-one">
 
-        <img class="shoppingCartimg" src="${localProduct.image}" alt="">
+                <img class="shoppingCartimg" src="${localProduct.image}" alt="">
 
                    <div class="basketDetails-one">
                        <h4>${localProduct.adi}</h4>
                        <div class="basketDetails-one-first">
-                       <h3 id="${localProduct.id}" >
-                       $${localProduct.firstPrice} X  ${localProduct.stock}
-                 </h3>
+                              <h3 id="${localProduct.id}" >
+                                 $${localProduct.firstPrice} X  ${totalNumber}
+                                 </h3>
 
-                 <h6>
-                       $${localProduct.totalPrice}
-                 </h6>
+                                <h6>
+                                         $${localProduct.totalPrice}
+                                 </h6>
                        </div>
                    </div>
 
@@ -104,6 +104,16 @@ function showCart() {
         
         `
     }
+
+    const bins = qs(".bin")
+
+
+
+    bins.addEventListener("click", function () {
+        const clear = this.parentElement
+        clear.remove()
+        console.log(id);
+    })
 
     // console.log(urunListesi);
 }
