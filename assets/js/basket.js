@@ -111,7 +111,12 @@ function showCart() {
 
     bins.addEventListener("click", function () {
         const clear = this.parentElement
+        localProducts = []
         clear.remove()
+        if (cartTotal.style.display = "block") {
+
+            cartTotal.style.display = "none"
+        }
         console.log(id);
     })
 

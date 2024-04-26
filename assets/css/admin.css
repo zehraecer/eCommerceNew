@@ -424,6 +424,8 @@ a {
         color: #FFFFFF;
         font-weight: 600;
         border-radius: 5px;
+        cursor: pointer;
+
     }
 }
 
@@ -439,6 +441,7 @@ a {
         background-color: #f99053;
         color: #FFFFFF;
         border-radius: 5px;
+        cursor: pointer;
 
 
     }

@@ -3,7 +3,7 @@ const productList = document.querySelector(".adminProductList")
 
 
 let eklenenurun = []
-
+let localProducts = []
 let sepettekiurunler = []
 
 let img = "https://picsum.photos/200/300"
@@ -104,12 +104,16 @@ function bindEvents() {
 }
 
 function urunuSepeteEkle() {
-    console.log(this.parentElement);
-
+    x = JSON.parse(localStorage.getItem("localProduct"))
+    console.log(x);
     sepettekiurunler = eklenenurun
-    console.log(sepettekiurunler);
+    x = sepettekiurunler
+    console.log(x);
+
 
     localStorage.setItem('urunler', JSON.stringify(sepettekiurunler));
+
+
 }
 
 
