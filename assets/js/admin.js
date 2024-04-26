@@ -1,163 +1,141 @@
-const clickedid = JSON.parse(localStorage.getItem("clickedid"))
-const dummyjson = "https://dummyjson.com";
-const hero = qs(".hero");
-
-let totalNumber = 0
+const form = document.querySelector(".formElements")
+const productList = document.querySelector(".adminProductList")
 
 
+let eklenenurun = []
 
+let sepettekiurunler = []
 
-function qs(selector) {
-    const element = document.querySelector(selector)
-    return element;
+let img = "https://picsum.photos/200/300"
 
+if (localStorage.getItem("urunler")) {
+    sepettekiurunler = JSON.parse(localStorage.getItem("urunler"))
 }
 
+let idno = 101
 
-function bindEvents(selector, eventType, cbFunction) {
-    const element = qs(selector)
-    element.addEventListener(eventType, cbFunction)
-    return element;
+form.addEventListener("submit", function (e) {
+    e.preventDefault()
+    console.log("sghrdgh");
 
-}
-
-
-// tiklanan urune fetch atıldı
-
-async function getProduct() {
-    const response = await fetch(`${dummyjson}/products/${clickedid}`)
-    const items = await response.json()
-    // console.log(items);
-    return items
-}
+    const products = {
+        id: idno++,
+        title: form["urunAdi"].value,
+        price: form["urunFiyati"].value,
+        brand: form["urunAdi"].value,
+        stock: form["stokAdedi"].value,
+        category: form["kategori"].value,
+        images: img
 
 
-// tiklanan urunun detayları listelendi
-
-async function listProduct() {
-    const item = await getProduct()
-    console.log(item);
-    hero.innerHTML = `
-        
-    <div data-id="${item.id}" class="hero-left">
-        <img class="img-big" src="${item.images[0]}" alt="">
-
-        <div class="hero-left-under">
-            <img id="imgSmall" class="img-small" src="${item.images[1]}" alt="">
-            <img class="img-small" src="${item.images[2]}" alt="">
-            <img class="img-small" src="${item.images[3]}" alt="">
-            <img class="img-small" src="${item.images[0]}" alt="">
-
-        </div>
-    </div>
-
-
-    <div class="hero-right">
-            <h4 class="brand">${item.brand}</h4>
-            <h1 class="title">${item.title}</h1>
-            <p>${item.description}</p>
-            <div class="hero-right-pricing">
-                <div class="before-after-price">
-                    <h3 class="afterPrice">${item.price}</h3>
-                    <h6 class="beforePrice">${item.price}</h6>
-                </div>
-                <a href="#" class="dscnt">${item.discountPercentage}</a>
-            </div>
-
-            <div class="hero-right-stock-addToCart">
-
-                <div class="stock">
-                    <a href="#" class="stock-down">-</a>
-                    <h5 class="updatedstock">${totalNumber}</h5>
-                    <a href="#" class="stock-up">+</a>
-                </div>
-
-                <div class="basket">
-                    <a class="addToBasket"> <img src="assets/img/Shape (2).svg" alt="" > Add to cart</a>
-                </div>
-            </div>
-    </div>
-        
-        `
-    sale()
-    bindEvents(".stock-down", "click", productReduce)
-    bindEvents(".stock-up", "click", productIncrease)
-    bindEvents(".addToBasket", "click", addedToCart)
-    bindEvents(".shoppingCart", "click", showCart)
-    bindEvents(".myDialog-close-btn", "click", closeModal)
-
-
-}
-
-
-
-
-// sepete eklenen urun modalını kapatmak icin fonksiyon
-
-function closeModal() {
-
-    myDialog.close();
-
-}
-
-
-
-
-
-//indirim
-
-function sale() {
-    const saleprice = qs(".afterPrice")
-    const beforeprice = qs(".beforePrice")
-    const discount = qs(".dscnt").textContent
-
-
-    let salePrice = Math.floor(((100 - discount) / 100) * beforeprice.textContent)
-
-    saleprice.innerHTML = `${salePrice}`
-
-    beforeprice.classList.add("crossOut")
-
-}
-
-
-
-
-
-
-// urun arttırma butonu icin fonksiyon
-
-async function productIncrease() {
-
-    const updatedStock = qs(".updatedstock")
-
-    totalNumber++
-
-    updatedStock.innerHTML = `${totalNumber}`
-
-
-
-}
-
-
-
-// urun azaltma butonu icin fonksiyon
-
-async function productReduce() {
-
-    const updatedStock = document.querySelector(".updatedstock")
-
-
-    if (totalNumber > 0) {
-        totalNumber--
 
     }
 
-    updatedStock.textContent = `${totalNumber}`
+    eklenenurun.push(products)
+    e.target.reset()
+
+
+    // localStorage.setItem('urunler', JSON.stringify(eklenenurun));
+    init()
+    bindEvents()
+})
+
+function init() {
+    productList.innerHTML = ""
+    for (const item of eklenenurun) {
+        productList.innerHTML += `
+
+
+        
+                <div  id="${item.id}" class="homePage">
+
+                    <div class="contentProductPage">
+                    
+                        <div class="content-img" >
+
+                                <img src="${item.images}" alt="">
+
+                        </div>
+
+                        <div class="explanation">
+                            <h4>${item.title}</h4>
+                            <h5>${item.category}</h5>
+                        </div>
+
+                        <h3>Rating <span style="font-weight: 700" >${item.rating}</span></h3>
+
+                        <div class="content-stock">
+                            <h2>$ ${item.price}</h2>
+                            <h6>Stock: ${item.stock}</h6>
+
+                        </div>
+
+                    </div>
+
+                    <div class="admin-addToBasket">
+                        <button>Sepete Ekle</button>  
+                    </div>
+                    </div>
+                        
+        `
+
+    }
+    bindEvents()
+}
+
+function bindEvents() {
+    const editbtns = document.querySelectorAll(".duzenle")
+    const deleteBtns = document.querySelectorAll(".sil")
+    const sepeteekle = document.querySelectorAll(".admin-addToBasket button")
+
+    for (const sepet of sepeteekle) {
+        sepet.addEventListener("click", urunuSepeteEkle)
+    }
+
+    for (const editbtn of editbtns) {
+        editbtn.addEventListener("click", editBtn)
+
+    }
+
+
+    for (const deletebtn of deleteBtns) {
+        deletebtn.addEventListener("click", dltBtn)
+    }
+}
+
+function urunuSepeteEkle() {
+    console.log(this.parentElement);
+
+    sepettekiurunler = eklenenurun
+    console.log(sepettekiurunler);
+
+    localStorage.setItem('urunler', JSON.stringify(sepettekiurunler));
+}
+
+
+
+
+
+
+
+function editBtn() {
+    let degistirilenUrun = prompt("ne ile değiştirmek istersiniz")
+
+    console.log(this);
+
+    this.parentElement.firstElementChild.firstElementChild.innerText = degistirilenUrun
+
 
 
 }
 
 
+function dltBtn() {
+    console.log("erjgnfı");
 
-listProduct()
+    const index = eklenenurun.findIndex((urun) => Number(urun.id) === Number(this.parentElement.id))
+    if (index !== -1) {
+        eklenenurun.splice(index, 1)
+    }
+}
+// init()

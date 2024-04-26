@@ -8,14 +8,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/admin.css">
     <link rel="stylesheet" href="assets/css/index.css">
 </head>
 
 <body>
-
     <div class="header container">
 
-        <div class=" header-left">
+        <div class="header-left">
 
             <img src="assets/img/sneakers.png" alt="">
 
@@ -28,23 +28,56 @@
             </div>
 
         </div>
-
         <div class="header-right">
+
             <img class="shape shoppingCart" src="assets/img/Shape.png" alt="">
             <img class="avatar" src="assets/img/image-avatar.png" alt="">
+
         </div>
 
     </div>
 
-    <div class="content container">
+
+    <form class="formElements container">
+
+        <div class="formElements-one">
+
+            <label for="urunAdi">Ürün Adı</label>
+            <input type="text" placeholder="ürün adı" name="urunAdi">
+        </div>
+
+        <div class="formElements-one">
+
+            <label for="urunAdi">Ürün Fiyatı</label>
+            <input type="text" placeholder="ürün fiyati" name="urunFiyati">
+        </div>
+
+        <div class="formElements-one">
+
+            <label for="stokAdedi">Stok Adedi</label>
+            <input type="text" placeholder="Stok Adedi" name="stokAdedi">
+        </div>
+
+        <div class="formElements-one">
+
+            <label for="kategori">Kategori</label>
+            <input type="text" placeholder="Kategori" name="kategori">
+        </div>
+
+        <div class="submitBtn">
+
+            <button type="submit">Gönder</button>
+        </div>
+    </form>
 
 
-    </div>
+
+    <ul class="adminProductList content container">
 
 
+    </ul>
 
-
-    <script src="assets/js/index.js"></script>
+    <script src="assets/js/admin.js"></script>
 </body>
 
 </html>

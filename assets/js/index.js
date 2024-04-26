@@ -2,6 +2,9 @@ const dummyjson = "https://dummyjson.com";
 const content = qs(".content")
 
 
+let localProducts = JSON.parse(localStorage.getItem("urunler"))
+console.log();
+
 function qs(selector) {
     const element = document.querySelector(selector)
     return element
@@ -29,7 +32,7 @@ async function getItems() {
 
         <a  id="${item.id}"  href="productPage.html" class="homePage">
 
-            <div class="deneme">
+            <div class="contentProductPage">
             
                 <div class="content-img" >
 
@@ -42,10 +45,41 @@ async function getItems() {
                     <h5>${item.category}</h5>
                 </div>
 
-                <h3>${item.rating}</h3>
+                <h3>Rating <span style="font-weight: 700" >${item.rating}</span></h3>
                 <div class="content-stock">
                     <h2>$ ${item.price}</h2>
                     <h6>Stock: ${item.stock}</h6>
+
+                </div>
+            </div>
+        </a>
+        
+        
+        `
+    }
+    const localItems = JSON.parse(localStorage.getItem("urunler"));
+    for (const localProduct of localItems) {
+        content.innerHTML += `
+
+        <a  id="${localProduct.id}"  href="productPage.html" class="homePage">
+
+            <div class="contentProductPage">
+            
+                <div class="content-img" >
+
+                        <img src="${localProduct.images}" alt="">
+
+                </div>
+
+                <div class="explanation">
+                    <h4>${localProduct.title}</h4>
+                    <h5>${localProduct.category}</h5>
+                </div>
+
+                <h3>${localProduct.brand}</h3>
+                <div class="content-stock">
+                    <h2>$ ${localProduct.price}</h2>
+                    <h6>Stock: ${localProduct.stock}</h6>
 
                 </div>
             </div>
