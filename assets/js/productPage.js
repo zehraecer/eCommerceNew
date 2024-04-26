@@ -2,11 +2,12 @@ const clickedid = JSON.parse(localStorage.getItem("clickedid"))
 const dummyjson = "https://dummyjson.com";
 const hero = qs(".hero");
 
-let totalNumber = 0
 
+let totalNumber = parseInt(localStorage.getItem("totalNumber")) || 0;
 
-
-
+if (!localStorage.getItem("totalNumber")) {
+    localStorage.setItem("totalNumber", JSON.stringify(totalNumber));
+}
 function qs(selector) {
     const element = document.querySelector(selector)
     return element;
